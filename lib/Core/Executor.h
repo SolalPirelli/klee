@@ -111,7 +111,8 @@ public:
     ReadOnly,
     ReportError,
     User,
-    Unhandled
+    Inaccessible,
+    Unhandled,
   };
 
 private:
@@ -215,6 +216,9 @@ private:
   // @brief buffer to store logs before flushing to file
   llvm::raw_string_ostream debugLogBuffer;
 
+  void addState(ExecutionState *current,
+                ExecutionState *fresh);
+
   llvm::Function* getTargetFunction(llvm::Value *calledVal,
                                     ExecutionState &state);
   
@@ -231,15 +235,18 @@ private:
                                   unsigned size, bool isReadOnly);
 
   void initializeGlobalObject(ExecutionState &state, ObjectState *os, 
-			      const llvm::Constant *c,
-			      unsigned offset);
+                              const llvm::Constant *c,
+                              unsigned offset);
   void initializeGlobals(ExecutionState &state);
 
   void stepInstruction(ExecutionState &state);
   void updateStates(ExecutionState *current);
+  void handleLoopAnalysis(llvm::BasicBlock *dst,
+                          llvm::BasicBlock *src,
+                          ExecutionState &state);
   void transferToBasicBlock(llvm::BasicBlock *dst, 
-			    llvm::BasicBlock *src,
-			    ExecutionState &state);
+                            llvm::BasicBlock *src,
+                            ExecutionState &state);
 
   void callExternalFunction(ExecutionState &state,
                             KInstruction *target,
@@ -299,7 +306,7 @@ private:
                    KInstruction *ki,
                    llvm::Function *f,
                    std::vector< ref<Expr> > &arguments);
-                   
+
   // do address resolution / object binding / out of bounds checking
   // and perform the operation
   void executeMemoryOperation(ExecutionState &state,
@@ -526,7 +533,14 @@ public:
   Expr::Width getWidthForLLVMType(llvm::Type *type) const;
   size_t getAllocationAlignment(const llvm::Value *allocSite) const;
 };
-  
-} // End klee namespace
+
+void FillCallInfoOutput(llvm::Function* f,
+                        bool isVoidReturn,
+                        ref<Expr> result,
+                        const ExecutionState& state,
+                        const Executor& exec,
+                        CallInfo* info);
+
+}// End klee namespace
 
 #endif

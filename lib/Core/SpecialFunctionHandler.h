@@ -108,10 +108,14 @@ namespace klee {
     HANDLER(handleDeleteArray);
     HANDLER(handleExit);
     HANDLER(handleAliasFunction);
+    HANDLER(handleAliasFunctionRegex);
+    HANDLER(handleAliasUndo);
     HANDLER(handleFree);
     HANDLER(handleGetErrno);
     HANDLER(handleGetObjSize);
     HANDLER(handleGetValue);
+    HANDLER(handleInterceptReads);
+    HANDLER(handleInterceptWrites);
     HANDLER(handleIsSymbolic);
     HANDLER(handleMakeSymbolic);
     HANDLER(handleMalloc);
@@ -138,6 +142,33 @@ namespace klee {
     HANDLER(handleMulOverflow);
     HANDLER(handleSubOverflow);
     HANDLER(handleDivRemOverflow);
+    HANDLER(handleTraceParam);
+    HANDLER(handleTraceParamPtr);
+    HANDLER(handleTraceParamPtrDirected);
+    HANDLER(handleTraceParamTaggedPtr);
+    HANDLER(handleTraceParamJustPtr);
+    HANDLER(handleTraceParamFPtr);
+    HANDLER(handleTraceRet);
+    HANDLER(handleTraceRetPtr);
+    HANDLER(handleTraceRetJustPtr);
+    HANDLER(handleTraceParamPtrField);
+    HANDLER(handleTraceParamPtrFieldDirected);
+    HANDLER(handleTraceParamPtrFieldJustPtr);
+    HANDLER(handleTraceRetPtrField);
+    HANDLER(handleTraceRetPtrFieldJustPtr);
+    HANDLER(handleTraceParamPtrNestedField);
+    HANDLER(handleTraceParamPtrNestedFieldDirected);
+    HANDLER(handleTraceRetPtrNestedField);
+    HANDLER(handleTraceExtraPtr);
+    HANDLER(handleTraceExtraPtrField);
+    HANDLER(handleTraceExtraPtrFieldJustPtr);
+    HANDLER(handleTraceExtraPtrNestedField);
+    HANDLER(handleTraceExtraPtrNestedNestedField);
+    HANDLER(handleForgetAll);
+    HANDLER(handleInduceInvariants);
+    HANDLER(handleForbidAccess);
+    HANDLER(handleAllowAccess);
+    HANDLER(handleDumpConstraints);
 #undef HANDLER
   };
 } // End klee namespace
